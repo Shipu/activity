@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"github.com/go-chi/chi"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
@@ -15,7 +16,7 @@ func Init()  {
 	
 }
 
-func Start() {
+func Start( router chi.Router) {
 	appEnv := os.Getenv("APP_PORT")
-	http.ListenAndServe(":"+appEnv, nil)
+	http.ListenAndServe(":"+appEnv, router)
 }

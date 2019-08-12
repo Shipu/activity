@@ -9,7 +9,7 @@ func main() {
 
 	_app.Init()
 
-	_api.Load()
+	router := _api.Load()
 
-	_app.Start()
+	_app.Start(router)
 }

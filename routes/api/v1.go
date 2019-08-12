@@ -6,14 +6,16 @@ import (
 	"net/http"
 )
 
-func Load() {
+func Load() chi.Router {
 	r := chi.NewRouter()
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to "))
+		w.Write([]byte("Welcome to Activity Crud using Golang, Mongodb, Chi, Bongo, GodotEnv"))
 	})
 
 	r.Route("/v1", func(r chi.Router) {
+		r.Use(_http.ActivityCtx)
+
 		r.Get("/activities", _http.All)
 
 		r.Post("/activity", _http.Create)
@@ -26,4 +28,6 @@ func Load() {
 			r.Get("/last/activity", _http.LastActivity)
 		})
 	})
+
+	return r
 }
