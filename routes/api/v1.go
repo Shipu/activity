@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/go-chi/chi"
 	_http "github.com/shipu/tracker/app/http/api"
+	_middleware "github.com/shipu/tracker/app/http/middlewares"
 	"net/http"
 )
 
@@ -14,13 +15,13 @@ func Load() chi.Router {
 	})
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Use(_http.ActivityCtx)
 
 		r.Get("/activities", _http.All)
 
 		r.Post("/activity", _http.Create)
 
 		r.Route("/{activityId}", func(r chi.Router) {
+			r.Use(_middleware.ActivityMiddleware)
 			r.Get("/", _http.Read)
 			r.Put("/", _http.Update)
 			r.Delete("/", _http.Delete)

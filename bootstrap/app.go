@@ -18,5 +18,14 @@ func Init()  {
 
 func Start( router chi.Router) {
 	appEnv := os.Getenv("APP_PORT")
+
+	_, err := DatabaseConnection()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
 	http.ListenAndServe(":"+appEnv, router)
 }
+

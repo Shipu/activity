@@ -1,9 +1,21 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"github.com/go-bongo/bongo"
+)
 
 type Activity struct {
-	Id primitive.ObjectID `json:"_id,omitempty" bson:_id,omitempty`
-	Name string `json:"name" bson:"name"`
-	Email string `json:"email" bson:"email"`
+	Name string `bson:"name"`
+	Email string `bson:"email"`
+	bongo.DocumentBase `bson:",inline"`
 }
+
+func (activity Activity) Collection() string {
+	return "activity_logs"
+}
+
+func (activity Activity) Instance() interface{} {
+	return &Activity{}
+}
+
+
