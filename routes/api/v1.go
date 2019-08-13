@@ -28,6 +28,8 @@ func Load() chi.Router {
 
 			r.Get("/last/activity", _http.LastActivity)
 		})
+
+
 	})
 
 	return r

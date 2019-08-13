@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+
 func Create(w http.ResponseWriter, r *http.Request) {
 	repo := _repo.Create()
 
@@ -32,7 +33,7 @@ func Delete(w http.ResponseWriter, r *http.Request)  {
 }
 
 func All(w http.ResponseWriter, r *http.Request)  {
-	repo := _repo.Create()
+	repo := _model.ActivityRepo().All()
 
 	response.WithJson(w, repo, 200)
 }
@@ -40,7 +41,7 @@ func All(w http.ResponseWriter, r *http.Request)  {
 func LastActivity(w http.ResponseWriter, r *http.Request)  {
 
 	ctx := r.Context()
-	//activity := ctx.Value("activity")
+
 	activity, ok := ctx.Value("activity").(*_model.Activity)
 
 	if !ok {

@@ -13,7 +13,7 @@ func ActivityMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		activityId := chi.URLParam(r, "activityId")
 
-		activity, err := _repo.Model(_model.Activity{}).Find(activityId)
+		activity, err := _repo.Model(_model.Activity{}).FindById(activityId)
 
 		if err != nil {
 			response.WithError(w, http.StatusText(404), 404)

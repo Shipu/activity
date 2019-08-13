@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"github.com/globalsign/mgo/bson"
 	mongo "github.com/go-bongo/bongo"
 	_i "github.com/shipu/tracker/app/interfaces"
@@ -19,7 +20,7 @@ func Create() string {
 }
 
 
-func (repo *Repo) Find(StringId string) (interface{}, error){
+func (repo *Repo) FindById(StringId string) (interface{}, error){
 
 	result := repo.model
 	err := repo.collection.FindById(bson.ObjectIdHex(StringId), result)
@@ -27,14 +28,29 @@ func (repo *Repo) Find(StringId string) (interface{}, error){
 	return result, err
 }
 
+func (repo *Repo) All() interface{} {
+	results := repo.collection.Find(bson.M{})
+
+	var items []interface{}
+
+	for results.Next(repo.model) {
+		items = append(items, repo.model)
+		fmt.Println(repo.model)
+	}
+
+	return items
+}
+
 
 func Model(model _i.Model) *Repo {
+
 	collection := _db.Connection.Collection(model.Collection())
 
 	repo := new(Repo)
+
 	repo.collection = collection
 	repo.model = model.Instance()
 
-
 	return repo
 }
+
