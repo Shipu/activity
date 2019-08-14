@@ -8,15 +8,15 @@ import (
 	"os"
 )
 
-func Init()  {
+func Init() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	
+
 }
 
-func Start( router chi.Router) {
+func Start(router chi.Router) {
 	appEnv := os.Getenv("APP_PORT")
 
 	_, err := DatabaseConnection()
@@ -25,7 +25,5 @@ func Start( router chi.Router) {
 		log.Fatal(err)
 	}
 
-
 	http.ListenAndServe(":"+appEnv, router)
 }
-
