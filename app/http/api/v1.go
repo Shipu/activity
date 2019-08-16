@@ -2,10 +2,12 @@ package api
 
 import (
 	"encoding/json"
+	mongo "github.com/go-bongo/bongo"
 	_model "github.com/shipu/tracker/app/models"
 	_repo "github.com/shipu/tracker/app/repositories"
 	"github.com/shipu/tracker/app/response"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -27,7 +29,14 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	err = _model.ActivityRepo().Save(activity)
 
 	if err != nil {
-		response.WithError(w, http.StatusText(http.StatusNotAcceptable), http.StatusNotAcceptable)
+
+		if vErr, ok := err.(*mongo.ValidationError); ok {
+			response.WithMultipleError(w, vErr.Errors, http.StatusBadRequest)
+			log.Println("Validation errors are:", vErr.Errors)
+		} else {
+			log.Println("Got a real error:", err.Error())
+		}
+
 		return
 	}
 
