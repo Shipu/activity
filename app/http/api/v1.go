@@ -22,7 +22,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &activity)
 
 	if err != nil {
-		response.WithError(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		response.WithError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -40,7 +40,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response.WithJson(w, activity, http.StatusCreated)
+	log.Println(activity)
+	log.Println(activity.Event)
+
+	response.WithJson(w, activity.Event, http.StatusCreated)
 
 }
 

@@ -22,6 +22,10 @@ func jsonResponse(w http.ResponseWriter, payload interface{}, code int, error bo
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 
+	if !error {
+		payload, _ = json.Marshal(payload)
+	}
+
 	apiResponse := map[string]interface{}{
 		"code": code,
 		"data": payload,
